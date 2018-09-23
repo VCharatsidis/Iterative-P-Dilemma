@@ -36,7 +36,7 @@ public:
 		}
 		else if (!last_move && !last_opponent_move)
 		{
-			return false;
+			return true;
 		}
 	}
 };

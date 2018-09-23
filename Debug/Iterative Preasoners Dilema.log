@@ -3,16 +3,19 @@
   Babinos.cpp
   Defector.cpp
   Iterative Preasoners Dilema.cpp
-c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(114): warning C4018: '<': signed/unsigned mismatch
-c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(125): warning C4018: '<': signed/unsigned mismatch
+c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(110): warning C4018: '<': signed/unsigned mismatch
+c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(113): warning C4018: '<': signed/unsigned mismatch
+c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(213): warning C4018: '<': signed/unsigned mismatch
   Random.cpp
   Simulator.cpp
-c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(114): warning C4018: '<': signed/unsigned mismatch
-c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(125): warning C4018: '<': signed/unsigned mismatch
+c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(110): warning C4018: '<': signed/unsigned mismatch
+c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(113): warning C4018: '<': signed/unsigned mismatch
+c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(213): warning C4018: '<': signed/unsigned mismatch
   Smart_thief.cpp
   Spiteful.cpp
   Strategy.cpp
   Tit_for_Tat.cpp
+  two_one.cpp
   Win_stay_lose_shift.cpp
   Generating Code...
 c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\win_stay_lose_shift.cpp(41): warning C4715: 'Win_stay_lose_shift::choose_action': not all control paths return a value

@@ -8,6 +8,7 @@
 #include "Win_stay_lose_shift.cpp"
 #include "Smart_thief.cpp"
 #include "Spiteful.cpp"
+#include "two_one.cpp"
 
 #include "Strategy.cpp"
 #include <vector>
@@ -19,30 +20,22 @@
 class Simulator
 {
 public:
-	int rounds = 3000;
-
-	double defector_avg;
-	double thimas_avg;
-	double tit_f_tat_avg;
-	double one_two_avg;
-	double randomer_avg;
-	double pirate_avg;
-	double opportunist_avg;
-	double win_stay_lose_shift_avg;
-	double smart_thief_avg;
-	double spiteful_avg;
+	int rounds = 5000;
+	bool noisy = false;
+	double chanse_to_change = 0.9;
 
 	std::map<int, double> avg_scores{
-		{ 0, defector_avg },
-		{ 1, pirate_avg },
-		{ 2, randomer_avg },
-		{ 3, opportunist_avg },
-		{ 4, tit_f_tat_avg },
-		{ 5, one_two_avg },
-		{ 6, thimas_avg },
-		{ 7, win_stay_lose_shift_avg},
-		{ 8, smart_thief_avg},
-		{ 9, spiteful_avg}
+		{ 0, 0 },
+		{ 1, 0 },
+		{ 2, 0 },
+		{ 3, 0 },
+		{ 4, 0 },
+		{ 5, 0 },
+		{ 6, 0 },
+		{ 7, 0 },
+		{ 8, 0 },
+		{ 9, 0 },
+		{10,0}
 	};
 
 	int rewords[2][2][2];
@@ -82,6 +75,7 @@ public:
 		Strategy* win_stay_lose_shift = new Win_stay_lose_shift();
 		Strategy* smart_thief = new Smart_thief();
 		Strategy* spiteful = new Spiteful();
+		Strategy* two_one = new Two_one();
 
 		std::vector<Strategy*> strats;
 
@@ -96,6 +90,7 @@ public:
 		strats.push_back(win_stay_lose_shift);
 		strats.push_back(smart_thief);
 		strats.push_back(spiteful);
+		strats.push_back(two_one);
 
 		//{ 0, defector_avg },
 		//{ 1, pirate_avg },
@@ -109,44 +104,19 @@ public:
 		//{ 8, smart_thief_avg },
 		//{ 9, spiteful_avg }
 		double count_rouds = 0;
-		int excluded_strats = 4;
+	
+		std::vector<int> to_exclude = { 1, 2, 3 };
 
 		for (int strat = 0; strat < strats.size(); strat++)
 		{
-			if (strat == 2)
-			{
-				continue;
-			}
-			if (strat == 3)
-			{
-				continue;
-			}
-
+			std::cout << "" << std::endl;
 			for (int other_strat = strat; other_strat < strats.size(); other_strat++)
 			{
-				if (other_strat == strat)
+				if (exclude(to_exclude, strat) || exclude(to_exclude, other_strat))
 				{
 					continue;
 				}
 
-				//exclude some strats from tour
-				if (other_strat == 1 || strat == 1)
-				{
-					continue;
-				}
-				if (other_strat ==6 || strat ==6)
-				{
-					continue;
-				}
-				if (other_strat == 2 )
-				{
-					continue;
-				}
-				if (other_strat == 3 )
-				{
-					continue;
-				}
-				
 				std::cout << "strat " + std::to_string(strat) + " other_strat " + std::to_string(other_strat) << std::endl;
 
 				double res[2];
@@ -158,9 +128,7 @@ public:
 				count_rouds++;
 			}
 		}
-		double normalize = (strats.size() - excluded_strats-1) ;
-		std::cout << "normalize " + std::to_string(normalize) << std::endl;
-		std::cout << "rounds of tournament " + std::to_string(count_rouds) << std::endl;
+		double normalize = (strats.size() - to_exclude.size()-1) ;
 
 		std::cout << "defector " + std::to_string(avg_scores.at(0) / normalize) << std::endl;
 		std::cout << "pirate " + std::to_string(avg_scores.at(1) / normalize) << std::endl;
@@ -173,6 +141,7 @@ public:
 		std::cout << "win_stay_lose_shift " + std::to_string(avg_scores.at(7) / normalize) << std::endl;
 		std::cout << "smart thief " + std::to_string(avg_scores.at(8) / normalize) << std::endl;
 		std::cout << "spiteful " + std::to_string(avg_scores.at(9) / normalize) << std::endl;
+		std::cout << "two_one " + std::to_string(avg_scores.at(10) / normalize) << std::endl;
 
 		//{ 0, defector_avg },
 		//{ 1, pirate_avg },
@@ -191,14 +160,39 @@ public:
 	{
 		double rewords_1 = 0;
 		double rewords_2 = 0;
+		
+		
 
 		strat1->opponents_last_moves.clear();
 		strat2->opponents_last_moves.clear();
+
+		std::random_device rd;
+		std::mt19937 eng(rd());
+		std::uniform_real_distribution<double> unif(0, 1);
 
 		for (int round = 0; round < rounds; round++)
 		{
 			bool action1 = strat1->choose_action();
 			bool action2 = strat2->choose_action();
+
+			if (noisy)
+			{
+				double change1 = unif(eng);
+				
+
+				if (change1 > chanse_to_change)
+				{
+					action1 = !action1;
+				}
+
+				double change2 = unif(eng);
+
+				if (change2 > chanse_to_change)
+				{
+					action2 = !action2;
+				}
+				
+			}
 
 			rewords_1 += rewords[action1][action2][0];
 			rewords_2 += rewords[action1][action2][1];
@@ -210,8 +204,21 @@ public:
 
 		avg_reword[0] = rewords_1 / rounds;
 		avg_reword[1] = rewords_2 / rounds;
-		//std::cout << "defector " + std::to_string(rew[0]) + " babinos " + std::to_string(rew[1]) << std::endl;
+		
 		return avg_reword;
+	}
+
+	bool exclude(std::vector<int> to_exclude, int current)
+	{
+		for (int i = 0; i < to_exclude.size(); i++)
+		{
+			if (to_exclude[i] == current)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 };

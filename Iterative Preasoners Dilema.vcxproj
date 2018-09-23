@@ -167,6 +167,7 @@
     </ClCompile>
     <ClCompile Include="Strategy.cpp" />
     <ClCompile Include="Tit_for_Tat.cpp" />
+    <ClCompile Include="two_one.cpp" />
     <ClCompile Include="Win_stay_lose_shift.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
