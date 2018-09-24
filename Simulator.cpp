@@ -21,7 +21,7 @@ class Simulator
 {
 public:
 	int rounds = 5000;
-	bool noisy = false;
+	bool noisy = true;
 	double chanse_to_change = 0.9;
 
 	std::map<int, double> avg_scores{
@@ -103,9 +103,11 @@ public:
 		//{ 7, win_stay_lose_shift_avg },
 		//{ 8, smart_thief_avg },
 		//{ 9, spiteful_avg }
+		//{ 10, two_one}
 		double count_rouds = 0;
-	
-		std::vector<int> to_exclude = { 1, 2, 3 };
+		
+		//in this vector are the strats that are going to be excluded from the tournament.
+		std::vector<int> to_exclude = {};
 
 		for (int strat = 0; strat < strats.size(); strat++)
 		{
@@ -121,6 +123,7 @@ public:
 
 				double res[2];
 				double* result = play_round(strats.at(strat), strats.at(other_strat), res);
+				//double* result =  probabilistic_play_round(strats.at(strat), strats.at(other_strat), res);
 
 				avg_scores[strat] = avg_scores.at(strat) + *result;
 				avg_scores[other_strat] = avg_scores.at(other_strat) + *(result + 1);
@@ -129,12 +132,14 @@ public:
 			}
 		}
 		double normalize = (strats.size() - to_exclude.size()-1) ;
+		std::cout << " " << std::endl;
+		std::cout << "noisy "+std::to_string(noisy)+" chanse_to_change " +std::to_string(chanse_to_change) << std::endl;
+		std::cout << " " << std::endl;
 
 		std::cout << "defector " + std::to_string(avg_scores.at(0) / normalize) << std::endl;
 		std::cout << "pirate " + std::to_string(avg_scores.at(1) / normalize) << std::endl;
 		std::cout << "randomer " + std::to_string(avg_scores.at(2)  / normalize) << std::endl;
 		std::cout << "oportunist " + std::to_string(avg_scores.at(3) / normalize) << std::endl;
-
 		std::cout << "tit_for_tat " + std::to_string(avg_scores.at(4) / normalize) << std::endl;
 		std::cout << "one_two " + std::to_string(avg_scores.at(5)  /normalize) << std::endl;
 		std::cout << "thimas " + std::to_string(avg_scores.at(6) / normalize) << std::endl;
@@ -147,22 +152,78 @@ public:
 		//{ 1, pirate_avg },
 		//{ 2, randomer_avg },
 		//{ 3, opportunist_avg },
-
 		//{ 4, tit_f_tat_avg },
 		//{ 5, one_two_avg },
 		//{ 6, thimas_avg },
 		//{ 7, win_stay_lose_shift_avg },
 		//{ 8, smart_thief_avg },
 		//{ 9, spiteful_avg }
+		//{ 10, two_one}
 	}
+
+	double* probabilistic_play_round(Strategy* strat1, Strategy* strat2, double avg_reword[])
+	{
+		double rewords_1 = 0;
+		double rewords_2 = 0;
+
+		strat1->opponents_last_moves.clear();
+		strat2->opponents_last_moves.clear();
+
+		std::random_device rd;
+		std::mt19937 eng(rd());
+		std::uniform_real_distribution<double> unif(0, 1);
+
+		bool play_again = true;
+		int counter = 0;
+		while(play_again)
+		{
+			bool action1 = strat1->choose_action();
+			bool action2 = strat2->choose_action();
+
+			if (noisy)
+			{
+				double change1 = unif(eng);
+
+
+				if (change1 > chanse_to_change)
+				{
+					action1 = !action1;
+				}
+
+				double change2 = unif(eng);
+
+				if (change2 > chanse_to_change)
+				{
+					action2 = !action2;
+				}
+
+			}
+
+			rewords_1 += rewords[action1][action2][0];
+			rewords_2 += rewords[action1][action2][1];
+
+			strat1->opponents_last_moves.push_back(action2);
+			strat2->opponents_last_moves.push_back(action1);
+
+			double chanse = unif(eng);
+			play_again = (0.99 > chanse);
+			counter++;
+
+		}
+
+		avg_reword[0] = rewords_1 / counter;
+		avg_reword[1] = rewords_2 / counter;
+		std::cout <<"games played "+ std::to_string(counter) << std::endl;
+
+		return avg_reword;
+	}
+	
 
 	double* play_round(Strategy* strat1, Strategy* strat2, double avg_reword[])
 	{
 		double rewords_1 = 0;
 		double rewords_2 = 0;
 		
-		
-
 		strat1->opponents_last_moves.clear();
 		strat2->opponents_last_moves.clear();
 

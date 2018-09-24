@@ -3,14 +3,14 @@
   Babinos.cpp
   Defector.cpp
   Iterative Preasoners Dilema.cpp
-c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(110): warning C4018: '<': signed/unsigned mismatch
-c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(113): warning C4018: '<': signed/unsigned mismatch
-c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(213): warning C4018: '<': signed/unsigned mismatch
+c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(112): warning C4018: '<': signed/unsigned mismatch
+c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(115): warning C4018: '<': signed/unsigned mismatch
+c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(274): warning C4018: '<': signed/unsigned mismatch
   Random.cpp
   Simulator.cpp
-c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(110): warning C4018: '<': signed/unsigned mismatch
-c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(113): warning C4018: '<': signed/unsigned mismatch
-c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(213): warning C4018: '<': signed/unsigned mismatch
+c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(112): warning C4018: '<': signed/unsigned mismatch
+c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(115): warning C4018: '<': signed/unsigned mismatch
+c:\users\vcharatsidis\source\repos\iterative preasoners dilema\iterative preasoners dilema\simulator.cpp(274): warning C4018: '<': signed/unsigned mismatch
   Smart_thief.cpp
   Spiteful.cpp
   Strategy.cpp
